@@ -1,0 +1,19 @@
+apiVersion: siptls.sec.ericsson.com/v1
+kind: InternalCertificate
+metadata:
+  name: eric-bos-assurance-topology-notification-kafka-cert
+spec:
+  kubernetes:
+    generatedSecretName: eric-bos-assurance-topology-notification-kafka-cert
+    certificateName: clicert.pem
+    privateKeyName: cliprivkey.pem
+  certificate:
+    subject:
+      cn: kafkaclient
+    issuer:
+      reference: eric-esoa-platform-message-bus-kf-client-client-ca
+    subjectAlternativeName:
+      populateKubernetesDns: false
+    extendedKeyUsage:
+      tlsClientAuth: true
+      tlsServerAuth: false

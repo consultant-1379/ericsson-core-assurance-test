@@ -1,0 +1,18 @@
+apiVersion: siptls.sec.ericsson.com/v1
+kind: InternalCertificate
+metadata:
+  name: eca-k6-testsuite-tls-cert
+  labels:
+    app: eca-k6-cert
+spec:
+  kubernetes:
+    generatedSecretName: eca-k6-cert
+    secretType: tls
+  certificate:
+    subject:
+      cn: eca-k6-test
+    subjectAlternativeName:
+      populateKubernetesDns: false
+    extendedKeyUsage:
+      tlsClientAuth: true
+      tlsServerAuth: false

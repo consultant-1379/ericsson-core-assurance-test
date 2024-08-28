@@ -1,0 +1,123 @@
+{
+  "name": "assurance-soa-indexer-for-ui-testing",
+  "description": "soa indexer for ui testing",
+  "source": {
+    "name": "soa-topic",
+    "type": "pmstatsexporter"
+  },
+  "writers": [
+    {
+      "inputSchema": "soa.nf.nfschema",
+      "name": "NF",
+      "context": [
+        {
+          "name": "NF"
+        }
+      ],
+      "value": [
+        {
+          "name": "AMFMeanRegNbr",
+          "recordName": "csac_0fcf6508_67cc_4969_1f2f_566c106e38b0",
+          "type": "integer"
+        },
+        {
+          "name": "AMFMeanRegNbr2",
+          "recordName": "csac_9a6ec349_5637_4c92_8bfd_a55630f442d5",
+          "type": "integer"
+        }
+      ],
+      "info": [
+        {
+          "name": "begin_timestamp",
+          "type": "string",
+          "recordName": "aggregation_begin_time",
+          "description": "infoField begin_time Description"
+        },
+        {
+          "name": "end_timestamp",
+          "type": "string",
+          "recordName": "aggregation_end_time",
+          "description": "infoField end_time Description"
+        }
+      ]
+    },
+    {
+      "inputSchema": "soa.nf.nsi.nfnsischema",
+      "name": "NF_NSI",
+      "context": [
+        {
+          "name": "NF"
+        },
+        {
+          "name": "NSI"
+        }
+      ],
+      "value": [
+        {
+          "name": "AMFMeanRegNbr",
+          "recordName": "csac_0fcf6508_67cc_4969_1f2f_566c106e38b0",
+          "type": "integer"
+        },
+        {
+          "name": "AMFMeanRegNbr2",
+          "recordName": "csac_9a6ec349_5637_4c92_8bfd_a55630f442d5",
+          "type": "integer"
+        }
+      ],
+      "info": [
+        {
+          "name": "begin_timestamp",
+          "type": "string",
+          "recordName": "aggregation_begin_time",
+          "description": "infoField begin_time Description"
+        },
+        {
+          "name": "end_timestamp",
+          "type": "string",
+          "recordName": "aggregation_end_time",
+          "description": "infoField end_time Description"
+        }
+      ]
+    },
+    {
+      "inputSchema": "soa.nsi.nsischema",
+      "name": "NSI",
+      "context": [
+        {
+          "name": "NSI"
+        }
+      ],
+      "value": [
+        {
+          "name": "AMFMeanRegNbr",
+          "recordName": "csac_0fcf6508_67cc_4969_1f2f_566c106e38b0",
+          "type": "integer"
+        },
+        {
+          "name": "AMFMeanRegNbr2",
+          "recordName": "csac_9a6ec349_5637_4c92_8bfd_a55630f442d5",
+          "type": "integer"
+        }
+      ],
+      "info": [
+        {
+          "name": "begin_timestamp",
+          "type": "string",
+          "recordName": "aggregation_begin_time",
+          "description": "infoField begin_time Description"
+        },
+        {
+          "name": "end_timestamp",
+          "type": "string",
+          "recordName": "aggregation_end_time",
+          "description": "infoField end_time Description"
+        }
+      ]
+    }
+  ],
+  "target": {
+    "displayName": "Display Name for 'SOA' index.",
+    "name": "assurance-testsoa",
+    "indexDescription": "SOA index description"
+  }
+}

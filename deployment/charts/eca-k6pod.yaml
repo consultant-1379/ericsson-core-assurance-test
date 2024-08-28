@@ -1,0 +1,132 @@
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: eca-k6-testsuite
+  labels:
+    app: eca-k6
+spec:
+  volumes:
+    - name: root-cert-volume
+      secret:
+        optional: true
+        secretName: eric-sec-sip-tls-trusted-root-cert
+    - name: eca-k6-test-cert-volume
+      secret:
+        optional: true
+        secretName: eca-k6-cert
+    - name: eca-k6-kafka-cert-volume
+      secret:
+        optional: true
+        secretName: eca-k6-kafka-cert
+    - name: eca-k6-message-kf-volume
+      secret:
+        optional: true
+        secretName: eric-bos-assurance-topology-notification-kafka-cert
+    - name: eca-k6-pm-serv-volume
+      secret:
+        optional: true
+        secretName: eric-pmserver-cert
+  containers:
+    - name: eca-k6
+      # uncomment before deploying locally as this will prevent k6 pod from
+      # going to complete stage.
+      # command: [ "sh", "-c", "--" ]
+      # args: [ "while true; do sleep 30; done;" ]
+      volumeMounts:
+        - name: root-cert-volume
+          mountPath: /certs/eric-sec-sip-tls-trusted-root-cert
+          readOnly: true
+        - name: eca-k6-test-cert-volume
+          mountPath: /certs/eca-k6-cert
+        - name: root-cert-volume
+          mountPath: /etc/ssl/certs/cacertbundle.pem
+          subPath: cacertbundle.pem
+          readOnly: true
+        - name: eca-k6-kafka-cert-volume
+          mountPath: /certs/eca-k6-kafka-cert
+        - name: eca-k6-message-kf-volume
+          mountPath: /certs/eric-bos-assurance-topology-notification-kafka-cert
+        - name: eca-k6-pm-serv-volume
+          mountPath: /certs/eric-pm-serv-cert
+      env:
+        - name: K6_OUT
+          value: "json=test-output.json"
+        - name: CSAC_URL
+          value: "https://eric-oss-core-slice-assurance-cfg:8443"
+        - name: CARDQ_URL
+          value: "https://eric-oss-core-reporting-dimension-query:8443"
+        - name: AAS_URL
+          value: "https://eric-oss-assurance-augmentation:8443"
+        - name: DC_URL
+          value: "https://eric-oss-data-catalog:443"
+        - name: NAS_URL
+          value: "https://eric-oss-network-assurance-search:3443"
+        - name: ATN_URL
+          value: "https://eric-bos-assurance-topology-notification:8443"
+        - name: SEARCH_ENGINE_URL
+          value: "https://eric-data-search-engine-tls:9200"
+        - name: AIS_URL
+          value: "https://eric-oss-assurance-indexer:8443"
+        - name: SR_URL
+          value: "https://eric-schema-registry-sr:443"
+        - name: OPENSEARCH_URL
+          value: "https://eric-data-search-engine-tls:9200"
+        - name: KAFKA_URL
+          value: "eric-oss-dmm-kf-op-sz-kafka-bootstrap:9093"
+        - name: ADP_KAFKA_URL
+          value: "eric-esoa-platform-message-bus-kf-client:9093"
+        - name: PM_CALC_URL
+          value: "https://eric-oss-pm-stats-calculator:443"
+        - name: NEO4J_URL
+          value: "https://eric-bos-neo4j-graphdb:7473"
+        - name: NEO4J_METRICS_URL
+          value: "http://eric-bos-neo4j-graphdb:2004"
+        - name: PMSERVER_URL
+          value: "https://eric-pm-server:9089"
+        - name: fauser
+          valueFrom:
+            secretKeyRef:
+              name: fauser-secret
+              key: fauser
+              optional: false
+        - name: fa_pwd
+          valueFrom:
+            secretKeyRef:
+              name: fauser-secret
+              key: fa_pwd
+              optional: false
+        - name: neo4j_username
+          value: neo4j
+# uncomment when ATN is enabled and new users are added in the graphdb secret, for now user is hardcoded to neo4j and remove hardcoded value for user
+#          valueFrom:
+#            secretKeyRef:
+#              name: eric-bos-neo4j-graphdb-cred-secret
+#              key: username
+#              optional: false
+        - name: neo4j_password
+#          value: password
+# uncomment when ATN is enabled in application staging pipeline
+          valueFrom:
+            secretKeyRef:
+              name: eric-bos-neo4j-graphdb-cred-secret
+              key: admin-pass
+              optional: false
+        - name: KPI_TYPE
+          value: "both"
+      image: armdocker.rnd.ericsson.se/proj-eric-oss-dev-test/ericsson-core-assurance-test:latest
+      imagePullPolicy: Always
+      resources: {}
+      securityContext:
+        allowPrivilegeEscalation: true
+        runAsNonRoot: false
+        runAsUser: 0
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+  dnsPolicy: ClusterFirst
+  imagePullSecrets:
+    - name: k8s-registry-secret
+  schedulerName: default-scheduler
+  restartPolicy: Never
+  securityContext: {}
+  terminationGracePeriodSeconds: 5

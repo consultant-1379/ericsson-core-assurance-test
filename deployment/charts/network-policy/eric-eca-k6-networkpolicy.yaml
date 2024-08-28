@@ -1,0 +1,13 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: eric-eca-k6-policy
+spec:
+  podSelector:
+    matchLabels:
+      app: eai
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: eca-k6

@@ -1,0 +1,17 @@
+replicaCount: 1
+
+images:
+  testwareImage: ${defaultDockerTag}
+
+build:
+  version: ${version}
+  name: ${name}
+
+env:
+  APP_VERSION: ""
+  BUILD_URL: ""
+  STAGING_TYPE: "APPLICATION"
+  PRODUCT: ""
+  PRODUCT_VERSION: ""
+  ENVIRONMENT: "development"
+  

@@ -1,0 +1,5 @@
+apiVersion: v2
+name: ${name}
+description: Testware for Ericsson Core Assurance
+type: application
+version: ${version}
